@@ -8,6 +8,7 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 	 <link rel="stylesheet" href="{% static 'core.css' %}">
 	<script src="https://kit.fontawesome.com/c76b2f6769.js" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 </head>
 <body>
 
@@ -23,13 +24,22 @@
 </div>
 </div>
 
+
+
+<div id="app">
+
+  <script type='text/javascript'>
+    var stories = {{ stories_json|safe }};
+    console.log(stories);
+  </script>
+
 	<div id="stories">
-	{% for story in stories %}
-		<div class="story">
-			<div class="content">
-				<small>{{ story.date }}</small>
-				<h5 data-href="{{ story.slug }}">{{story.title}}</h5>
-				<p>{{ story.summary }}</p>
+		<div v-for="story in stories" class="story">
+			<div class="content px-3">
+				<small class="text-small">[[ story.date ]]</small>
+				<h5 data-href="[[ story.slug ]]">[[story.title]]</h5>
+				<p class="mb-1">[[ story.summary ]]</p>
+				<small class="text-blue p-1"><strong>[[ story.page ]]</strong></small>
 			</div>
 			<div class="toolbar">
 				<div class="save-div">
@@ -40,11 +50,22 @@
 				</div>
 			</div>
 		</div>
-	{% endfor %}
 	</div>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</div>
+<script>
+	 var app = new Vue({
+      delimiters: ['[[', ']]'],
+      el: '#app',
+      data: {
+          stories: stories,
+      },
+      methods: {
+          greet: function(name) {
+              console.log('Hello from ' + name + '!')
+          }
+      }
+    });
+</script>
 <script src="{% static 'core.js' %}"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 </html>
