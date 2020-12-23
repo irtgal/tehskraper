@@ -1,12 +1,14 @@
 <template>
     <div id="navbar">
-        <div id="nav-expand"><i class="fas fa-grip-lines"></i></div>
+        <div id="nav-expand" v-on:click="toggleNav();"><i class="fas fa-grip-lines"></i></div>
             <div class="topnav">
             <a class="nav-item"><router-link :to = "{name: 'stories'}" exact><i class="fas fa-home home text-light"></i></router-link></a>
+            <section v-bind:class="{ hidden: navHidden }">
             <a class="nav-item" href="#about">Slo-tech</a>
             <a class="nav-item" href="#contact">Monitor</a>
             <input class="search-input" type="text" placeholder="Poišči.." name="search" >
             <div class="nav-item nav-saved hover"><i class="fas fa-bookmark text-green"></i></div>
+            </section>
         </div>
     </div>
 </template>
@@ -14,6 +16,26 @@
 <script>
 export default {
     name: 'Nav',
+    data: function() {
+        return {
+          navHidden: false,
+        };
+    },
+  methods: {
+    toggleNav: function(){
+      this.navHidden = !this.navHidden
+    },
+    displayResize: function() {
+            if (screen.width < 760){this.navHidden = true} else {this.navHidden = false}
+  }   
+  },
+    created () {
+      this.displayResize()
+      window.addEventListener("resize", this.displayResize)
+      },
+    components: {
+    },
+    
 }
 </script>
 
@@ -69,7 +91,6 @@ export default {
     color: white;
     font-size: 25px;
 }
-
 @media screen and (max-width: 760px) {
     #nav-expand {
         display: block;

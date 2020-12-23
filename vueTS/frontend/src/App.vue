@@ -13,11 +13,8 @@ export default {
 
 <style>
 body {
-    margin: 0 10%;
-    background-color: rgb(237,240,244);
-    font-family: Arial, Helvetica, sans-serif;
+    padding-top: 50px;
 }
-
 .hover:hover {
     cursor: pointer;
     filter: brightness(90%);
@@ -38,6 +35,10 @@ body {
     font-size: 10px;
 }
 .seen {
-    color: #95d6e9;
+    color: #b3b3b3;
 }
+.hidden {
+  display: none;
+}
+
 </style>
