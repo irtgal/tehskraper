@@ -1,27 +1,17 @@
-from django.shortcuts import render
-from django.http import JsonResponse
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth import authenticate, login, logout
-import json
-from django.shortcuts import render
+from rest_framework.response import Response
+from rest_framework import generics
 from .scripts import *
+from .models import Story
+from .serializers import StorySerializer
 
-def index(request):
-	#get_slotech()
-	#get_monitor()
-	stories = Story.objects.all().order_by("-date")[:15]
-	stories_list = []
-	for story in stories:
-		stories_list.append({
-			'id': story.id,
-			'title': story.title,
-			'summary': story.summary,
-			'slug': story.slug,
-			'seen': story.seen,
-			'saved': story.saved,
-			'page': story.pretty_page(),
-			'date': story.pretty_date()
+class StoriesView(generics.RetrieveAPIView):
+	queryset = Story.objects.all().order_by("-date")[:15]
 
-		})
-	print(json.dumps(stories_list))
-	return render(request, 'index.html', {'stories_json': json.dumps(stories_list)})
+
+	def get(self,request, *args, **kwargs):
+		queryset = self.get_queryset()
+		serializer = StorySerializer(queryset, many=True)
+		serializer.data.append({'title': 'Najnovejse'})
+		print(serializer.data)
+		return Response(serializer.data)
+	

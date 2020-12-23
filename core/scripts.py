@@ -9,10 +9,11 @@ def get_slotech():
 	page = requests.get(url).content
 	soup = BeautifulSoup(page, 'html.parser')
 	news_items = soup.find_all("div", class_="news_item")
-	stories = Story.objects.filter(page="st").order_by("-date")
+	stories = Story.objects.filter(page="st").order_by("-date")[4]
+	titles = [story.title for story in stories]
 	for item in news_items:
 		title = item.find("a",  itemprop="name").text
-		if stories.exists() and title == stories[0].title:
+		if stories.exists() and title in titles:
 			break
 		href = item.find("meta", itemprop="mainEntityOfPage")["itemid"]
 		date_str = item.find("time",itemprop="datePublished")['datetime'].replace("T", " ").split("+")[0]
@@ -26,11 +27,12 @@ def get_monitor():
 	page = requests.get(url).content
 	soup = BeautifulSoup(page, 'html.parser')
 	news_items = soup.find_all("li", class_="article")
-	stories = Story.objects.filter(page="mn").order_by("-date")
+	stories = Story.objects.filter(page="mn").order_by("-date")[5]
+	titles = [story.title for story in stories]
 	for item in news_items:
 		item_body = item.find("div", class_="text")
 		title = item_body.find("a").text
-		if stories.exists() and title == stories[0].title:
+		if stories.exists() and title in stories:
 			break
 		href = "https://www.monitor.si" + item_body.find("a")["href"]
 		summary = item.find("p", class_="uvodnovosti").text
@@ -39,3 +41,4 @@ def get_monitor():
 		date = datetime.datetime.strptime(date_str, '%d.%m.%Y %H:%M')
 		instance = Story(title=title,slug=href,date=date,summary=summary, page="mn")
 		instance.save()
+
