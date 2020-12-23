@@ -2,10 +2,10 @@
     <div id="navbar">
         <div id="nav-expand" v-on:click="toggleNav();"><i class="fas fa-grip-lines"></i></div>
             <div class="topnav">
-            <a class="nav-item"><router-link :to = "{name: 'stories'}" exact><i class="fas fa-home home text-light"></i></router-link></a>
+            <a class="nav-item"><router-link :to="{name: 'home'}" exact><i class="fas fa-home home text-light"></i></router-link></a>
             <section v-bind:class="{ hidden: navHidden }">
-            <a class="nav-item" href="#about">Slo-tech</a>
-            <a class="nav-item" href="#contact">Monitor</a>
+            <router-link to="/page/st/" class="nav-item" exact>Slo-tech</router-link>
+           <router-link to="/page/mn/" class="nav-item" exact>Monitor</router-link>
             <input class="search-input" type="text" placeholder="Poišči.." name="search" >
             <div class="nav-item nav-saved hover"><i class="fas fa-bookmark text-green"></i></div>
             </section>

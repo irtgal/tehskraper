@@ -2,8 +2,8 @@ from django.db import models
 from datetime import datetime
 
 PAGE_CHOICES = (
-	('st', 'slo-tech'),
-	('mn', 'monitor')
+	('st', 'Slo-tech'),
+	('mn', 'Monitor')
 )
 class Story(models.Model):
 	page =models.CharField(max_length=3, choices=PAGE_CHOICES)

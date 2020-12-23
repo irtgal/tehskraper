@@ -2,20 +2,23 @@
     <div id="stories-app">
     <Nav></Nav>
 	<div id="stories">
-        <h6 id="app-title"><strong>Novo</strong></h6>
-		<div v-for="story in APIData" v-bind:key="story.id" class="story">
+        <h6 id="app-title"><strong>{{ appTitle }}</strong></h6>
+		<div v-for="story in stories" v-bind:key="story.id" class="story">
 			<div  v-bind:class="{ seen: story.seen }" class="content px-3">
 				<small class="text-small">{{ story.date }}</small>
-				<h5>{{story.title}}</h5>
+				<h5 v-on:click="openStory(story.id)" class="hover">{{story.title}}</h5>
 				<p class="mb-1">{{ story.summary }}</p>
 				<small class="text-blue p-1"><strong>{{ story.page }}</strong></small>
 			</div>
 			<div class="toolbar">
-                <h1>{{ story.saved}}</h1>
-				<div v-on:click="toggleSaved(story.id)"  class="save-div">
-                    <font-awesome-icon icon="user-secret" />
-                    <i v-bind:class="{ hidden: story.saved}" class="far fa-bookmark save text-green"></i>
+                <!-- fontawesome je buggy, zato je mal grdo -->
+				<div v-on:click="toggleSaved(story.id)" v-bind:class="{ hidden: story.saved }" class="save-div">
+                    <i class="far fa-bookmark save text-green"></i>
 				</div>  
+                <div v-on:click="toggleSaved(story.id)" v-bind:class="{ hidden: !story.saved }" class="save-div">
+                    <i class="fas fa-bookmark save text-green"></i>
+				</div>  
+
 				<div v-on:click="openStory(story.id)" class="visit-div">
 					<i class="fas fa-external-link-alt visit text-blue"></i>
 				</div>
@@ -32,35 +35,53 @@ import Nav from '../components/Nav'
 
 export default {
     name: 'Stories',
-    data () {
-        return {
-            APIData: [],
-        }
-    },
     components: {
         Nav
     },
+    data () {
+        return {
+            stories: [],
+            appTitle: '',
+        }
+    },
     created () {
-        getAPI.get('/index/',)
-        .then(response => {
-            console.log('getAPI dela')
-            this.APIData = response.data
-        })
-        .catch(err => {
-            console.log(err+"NEDELA")
-        })
+        this.getAPIData();
+
+    },
+    watch:{
+        $route (){
+            this.getAPIData();
+        }
     },
     methods: {
+        getAPIData(){
+        getAPI.get(this.$route.path,)
+        .then(response => {
+            this.stories = response.data.stories
+            this.appTitle = response.data.app_title
+        })
+        .catch(err => {
+            console.log(err)
+        })
+        },
         openStory(id) {
-            var clickedStory = this.APIData.find(x => x.id === id)
-            clickedStory.seen = true
+            var clickedStory = this.stories.find(x => x.id === id)
+            getAPI.get('/seen/'+ id +'/')
+            .then(response => {
+                if (response){clickedStory.seen = true}                
+            })
             window.open(clickedStory.slug)
         },
         toggleSaved(id) {
-            var clickedStory = this.APIData.find(x => x.id === id)
-            clickedStory.saved = !clickedStory.saved
-            console.log(clickedStory.saved)
+            var clickedStory = this.stories.find(x => x.id === id)
+            getAPI.get('/save/'+ id +'/')
+            .then(response => {
+                clickedStory.saved = response.data
+            })
         }
+    },
+    updated(){
+        console.log("updated");
     }
 
     
@@ -77,6 +98,7 @@ export default {
 
 #app-title {
     background-color: white;
+    color: #333;
     border: 1px solid #c5cbd3;
     padding: 10px;
     margin-top: 20px;
