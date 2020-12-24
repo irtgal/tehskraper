@@ -11,7 +11,9 @@ export default new VueRouter({
     base: process.env.BASE_URL,
     routes: [
         {path: '/', name:'home', component: Stories},
-        {path: '/page/:page_name/', component: Stories}
+        {path: '/page/:page_name/', component: Stories},
+        {path: '/saved/', component: Stories},
+        {path: '/search/', component: Stories},
     ]
 })
 

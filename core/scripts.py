@@ -5,12 +5,11 @@ import datetime
 from .models import *
 
 def get_slotech():
-	print(2123123112)
 	url = "https://slo-tech.com/novice/arhiv/"
 	page = requests.get(url).content
 	soup = BeautifulSoup(page, 'html.parser')
 	news_items = soup.find_all("div", class_="news_item")
-	stories = Story.objects.filter(page="st").order_by("-date")[:3]
+	stories = Story.objects.filter(page="st").order_by("-date")[:5]
 	titles = [story.title for story in stories]
 	for item in news_items:
 		title = item.find("a",  itemprop="name").text
@@ -28,12 +27,12 @@ def get_monitor():
 	page = requests.get(url).content
 	soup = BeautifulSoup(page, 'html.parser')
 	news_items = soup.find_all("li", class_="article")
-	stories = Story.objects.filter(page="mn").order_by("-date")[:3]
+	stories = Story.objects.filter(page="mn").order_by("-date")[:5]
 	titles = [story.title for story in stories]
 	for item in news_items:
 		item_body = item.find("div", class_="text")
 		title = item_body.find("a").text
-		if stories.exists() and title in stories:
+		if stories.exists() and title in titles:
 			break
 		href = "https://www.monitor.si" + item_body.find("a")["href"]
 		summary = item.find("p", class_="uvodnovosti").text

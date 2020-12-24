@@ -12,8 +12,12 @@ export default {
 </script>
 
 <style>
-body {
+html {
+  scroll-behavior: smooth;
+}
+#app {
     padding-top: 50px;
+    background-color: rgb(237,240,244);
 }
 .hover:hover {
     cursor: pointer;
