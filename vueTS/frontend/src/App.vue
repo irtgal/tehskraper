@@ -1,5 +1,7 @@
 <template>
   <div id="app">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    
   <router-view/>
   </div>
 </template>
@@ -12,12 +14,10 @@ export default {
 </script>
 
 <style>
-html {
-  scroll-behavior: smooth;
-}
 #app {
-    padding-top: 50px;
+    padding: 50px 0 20px 0;
     background-color: rgb(237,240,244);
+    min-height: 100vh;
 }
 .hover:hover {
     cursor: pointer;
@@ -27,7 +27,7 @@ html {
     background-color: #95d095;
 }
 .text-green {
-    color: #95d095;
+    color: #71c171
 }
 .text-blue {
    color: #80cde5;

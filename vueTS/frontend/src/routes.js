@@ -13,7 +13,7 @@ export default new VueRouter({
         {path: '/', name:'home', component: Stories},
         {path: '/page/:page_name/', component: Stories},
         {path: '/saved/', component: Stories},
-        {path: '/search/', component: Stories},
+        {path: '/search/:query/', component: Stories},
     ]
 })
 

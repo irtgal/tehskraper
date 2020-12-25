@@ -1,8 +1,6 @@
 from django.db import models
 from datetime import datetime
 
-from django.db.models import CharField
-from django.db.models.functions import Unaccent
 
 PAGE_CHOICES = (
 	('st', 'Slo-tech'),

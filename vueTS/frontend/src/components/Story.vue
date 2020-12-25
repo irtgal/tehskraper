@@ -63,6 +63,7 @@ export default {
     border-bottom: none;
     display: flex;
     flex-direction: row;
+    overflow-wrap: break-word;
 }
 .story:last-child {
   border-bottom: 1px solid #c5cbd3;
