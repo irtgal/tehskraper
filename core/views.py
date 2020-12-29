@@ -13,33 +13,41 @@ from .serializers import StorySerializer
 
 @api_view(('GET',))
 def get_stories(request):
-	#get_slotech()
-	#get_monitor()
 	last_id = request.GET.get('last_story', False)
+	refresh = request.GET.get('reload', None)
+
 	if last_id:
 		last_date = get_object_or_404(Story, id=last_id).date
 		queryset = Story.objects.filter(Q(date__lt=last_date)).order_by("-date")[:10]
 		if not queryset:
 			return Response({'error': 'Ni več novic'})
 	else:
+		if refresh:
+			get_monitor()
+			get_racunalniske_novice()
+			get_slotech()
 
 		queryset = Story.objects.all().order_by("-date")[:10]
 	serializer = StorySerializer(queryset, many=True)
 	return Response({'stories': serializer.data, 'app_title': 'Novo'})
 
+
 @api_view(('GET',))
 def get_page(request, page_name):
 	last_id = request.GET.get('last_story', False)
+	refresh = request.GET.get('reload', None)
 	if last_id:
 		last_date = get_object_or_404(Story, id=last_id).date
 		queryset = Story.objects.filter(Q(date__lt=last_date, page=page_name)).order_by("-date")[:10]
 		if not queryset:
 			return Response({'error': 'Ni več novic'})
-
 	else:
+		if refresh:
+			scrappers[page_name]()
+
 		queryset = Story.objects.filter(page=page_name).order_by("-date")[:10]
 	serializer = StorySerializer(queryset, many=True)
-	return Response({'stories': serializer.data, 'app_title': queryset[0].pretty_page()})
+	return Response({'stories': serializer.data, 'app_title': pretty_page(page_name)})
 
 @api_view(('GET',))
 def get_saved(request):

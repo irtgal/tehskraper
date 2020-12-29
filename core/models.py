@@ -4,7 +4,8 @@ from datetime import datetime
 
 PAGE_CHOICES = (
 	('st', 'Slo-tech'),
-	('mn', 'Monitor')
+	('mn', 'Monitor'),
+	('rn', "Racunalniske novice")
 )
 class Story(models.Model):
 	page =models.CharField(max_length=3, choices=PAGE_CHOICES)
@@ -25,5 +26,4 @@ class Story(models.Model):
 	def pretty_date(self):
 		return self.date.strftime("%d. %b %Y %H:%M")
 
-	def pretty_page(self):
-		return [full for (short, full) in PAGE_CHOICES if short == self.page][0]
+

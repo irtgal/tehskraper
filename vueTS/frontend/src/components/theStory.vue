@@ -1,7 +1,7 @@
 <template>
 
 		<div  class="story" :id="story.id">
-			<div  v-bind:class="{ seen: story.seen }" class="content px-3">
+			<div  v-bind:class="{ seen: story.seen }" class="content px-3 break-long-words">
 				<small class="text-small">{{ story.date }}</small>
 				<h5 v-on:click="openStory(story)" class="hover">{{story.title}}</h5>
 				<p class="mb-1">{{ story.summary }}</p>
@@ -63,7 +63,6 @@ export default {
     border-bottom: none;
     display: flex;
     flex-direction: row;
-    overflow-wrap: break-word;
 }
 .story:last-child {
   border-bottom: 1px solid #c5cbd3;
@@ -93,12 +92,17 @@ export default {
 .visit, .save {
     font-size: 20px;
 }
-
 .content {
     flex: 1;
     padding: 10px;
 }
-
+.break-long-words {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-all;
+  word-break: break-word;
+  hyphens: auto;
+}
 .hidden {
     display: none;
 }
