@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>TehSkraper</title>
+	<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' >
+{% load static %}
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	 <link rel="stylesheet" href="{% static 'core.css' %}">
+	<script src="https://kit.fontawesome.com/c76b2f6769.js" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+
+<div id="navbar">
+<div id="nav-expand"><i class="fas fa-grip-lines"></i></div>
+<div class="topnav">
+  <a class="nav-item" href="#home"><i class="fas fa-home home"></i></a>
+  <a class="nav-item" href="#about">Slo-tech</a>
+  <a class="nav-item" href="#contact">Monitor</a>
+	<input class="search-input" type="text" placeholder="Poišči.." name="search" >
+
+	<div class="nav-item nav-saved hover"><i class="fas fa-bookmark text-green"></i></div>
+</div>
+</div>
+
+
+
+<div id="app">
+
+  <script type='text/javascript'>
+    var stories = {{ stories_json|safe }};
+    console.log(stories);
+  </script>
+
+	<div id="stories">
+		<div v-for="story in stories" class="story">
+			<div class="content px-3">
+				<small class="text-small">[[ story.date ]]</small>
+				<h5 data-href="[[ story.slug ]]">[[story.title]]</h5>
+				<p class="mb-1">[[ story.summary ]]</p>
+				<small class="text-blue p-1"><strong>[[ story.page ]]</strong></small>
+			</div>
+			<div class="toolbar">
+				<div class="save-div">
+					<i class="far fa-bookmark save text-green"></i>
+				</div>
+				<div class="visit-div">
+					<i class="fas fa-external-link-alt visit text-blue"></i>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="{% static 'core.js' %}"></script>
+</body>
+</html>
