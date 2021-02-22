@@ -5,11 +5,11 @@
     <div id="loading"><i  class="fas fa-sync" id="loading-icon"></i></div>
 	
     <h5 id="app-title" class="text-center">
-            <strong>{{ appTitle }} <b  v-if="$route.path.includes('search')" class="text-green">{{ query() }}</b></strong>
+            <strong class="h-opacity">{{ appTitle }} <b  v-if="$route.path.includes('search')" class="text-green">{{ query() }}</b></strong>
             <i v-if="scrollAble" v-on:click="reloadStories()" class="fas fa-sync" id="reload"></i>
     </h5>
     <div id="stories">
-		<theStory v-for="story in stories" v-bind:key="story.id" :story="story"></theStory>
+		<theStory v-for="story in stories" v-bind:key="story.id" :story="story" @removeSaved="removeStory"></theStory>
 
         <div v-if="!stories.length" id="no-news"><h5><b>Ni novic</b></h5></div>
 	</div>
@@ -76,11 +76,14 @@ export default {
             document.getElementById("loading").style.display = "block"
             this.getAPIData(true)
         },
+        removeStory(id) {
+            let i = this.stories.map(item => item.id).indexOf(id)
+            this.stories.splice(i, 1)
+        },   
 
         infiniteScroll() {
         window.onscroll = () => {
             let  bottomOfWindow = window.innerHeight + window.pageYOffset >= document.body.offsetHeight
-            console.log(this.scrollAble , !this.allLoaded, bottomOfWindow )
             if (bottomOfWindow  && this.scrollAble && !this.allLoaded) {
                 let last_story = this.stories[this.stories.length - 1].id
                 getAPI.get(this.$route.path, {
@@ -110,9 +113,8 @@ export default {
     font-family: Arial, Helvetica, sans-serif;
 }
 #app-title {                       
-    background-color: white;
-    border: 1px solid #c5cbd3;
-    padding: 10px;
+    background-color: #1E1E1E;
+    padding: 10px 10px 10px 45px;
     margin: 30px 0 10px 0;
 
 }
@@ -120,20 +122,20 @@ export default {
     float: right;
     padding: 3px;
     padding-right: 6px;
-    color: #808080; 
+    color: #80cde5;
+    opacity: 75%;
 }
 #reload:hover {
     cursor: pointer;
-    color: rgb(51,51,51);
+    opacity: 100%;
 }
 #no-news {
     position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
-    color:  #bfbfbf;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translateX(-50%);
+    transform: translateX(-50%);
+    color: #595959;
 }
 #loading {
     display: none;
@@ -144,8 +146,8 @@ export default {
     left:0;
     width: 100%;
     height: 100%;
-    background:rgba(255,255,255,0.5);
-    z-index: 7000;
+    background:rgba(255,255,255,0.1);
+    z-index: 600;
 }
 #loading-icon {
     position: absolute;

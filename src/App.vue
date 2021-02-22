@@ -14,8 +14,9 @@ export default {
 <style>
 #app {
     padding: 50px 0 20px 0;
-    background-color: rgb(237,240,244);
+    background-color: #121212;
     min-height: 100vh;
+    color: white;
 }
 .hover:hover {
     cursor: pointer;
@@ -37,10 +38,18 @@ export default {
     font-size: 10px;
 }
 .seen {
-    color: #b3b3b3;
+    opacity: 38%;
 }
 .hidden {
   display: none;
 }
-
+.h-opacity {
+ opacity: 87%;
+}
+.m-opacity {
+    opacity: 60%;
+}
+.thick {
+    font-weight: bold;
+}
 </style>

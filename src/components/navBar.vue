@@ -1,17 +1,27 @@
 <template>
     <div id="navbar">
         <div id="nav-expand" v-on:click="toggleNav()"><i class="fas fa-grip-lines"></i></div>
-            <div class="topnav">
+            <div class="topnav h-opacity">
             <router-link :to="{name: 'home'}" class="nav-item" exact v-on:click.native="closeNav()"><i class="far fa-newspaper home text-light"></i></router-link>
 
             <section v-bind:class="{ hidden: navHidden }">
-            <router-link to="/saved/"  class="nav-item nav-saved hover"  exact v-on:click.native="closeNav()">
-              <i  class="fas fa-bookmark text-green"></i>
-            </router-link>
+            
+            <div id="more" class="nav-item">
+              <i class="fas fa-ellipsis-v px-2"></i>
+              <div id="more-content" style="float: left;">
+                <router-link to="/stats" class="nav-item px-3 thick" exact v-on:click.native="closeNav()">Statistika <i class="fas fa-chart-pie"></i></router-link>
+                <router-link to="/saved/"  class="nav-item nav-saved hover thick"  exact v-on:click.native="closeNav()">
+                  Shranjeno <i  class="fas fa-bookmark "></i>
+                </router-link>
+              </div>
+            </div>
+
             <input @keyup.enter="search()" v-model="searchQuery" class="search-input" v-on:click="preventResize()" @blur="listenResize()" type="text" placeholder="Poišči.." name="search" required>
-            <router-link to="/page/st/" class="nav-item" exact v-on:click.native="closeNav()">Slo-tech</router-link>
-            <router-link to="/page/mn/" class="nav-item" exact v-on:click.native="closeNav()">Monitor</router-link>
-            <router-link to="/page/rn/" class="nav-item" exact v-on:click.native="closeNav()">Racunalniske novice</router-link>
+            <router-link to="/page/st/" class="nav-item px-3 thick" exact v-on:click.native="closeNav()">st</router-link>
+            <router-link to="/page/mn/" class="nav-item px-3 thick" exact v-on:click.native="closeNav()">mn</router-link>
+            <router-link to="/page/rn/" class="nav-item px-3 thick" exact v-on:click.native="closeNav()">rn</router-link>
+
+
 
             </section>
 
@@ -34,13 +44,13 @@ export default {
       if (screen.width < 895){ this.navHidden = true }
     },
     toggleNav: function() {
-      if (screen.width < 895){this.navHidden = !this.navHidden}      
+      this.navHidden = !this.navHidden
     },
     search: function() {
       if (this.searchQuery.length > 0 && ! /(#|\/|\?)+/.test(this.searchQuery)){
-      this.$router.push('/search/'+this.searchQuery+'/')
-      this.closeNav()
-      this.searchQuery = ''
+        this.$router.push('/search/'+this.searchQuery+'/')
+        this.closeNav()
+        this.searchQuery = ''
       }
     },
     displayResize: function() {
@@ -70,8 +80,8 @@ export default {
     top: 0;
     left: 0;
     right: 0;
-    background-color: #333;
-    z-index: 7000;
+    background-color: #66AE66;
+    z-index: 6000;
 }
 
 .topnav {
@@ -88,17 +98,13 @@ export default {
   font-size: 17px;
   color: white;
 }
-.nav-saved {
-    float: right;
-}
 .home {
     font-size: 25px;
 }
 .nav-item:hover {
-    color: rgb(210,210,210);
+    opacity: 80%;
     text-decoration: none;
 }
-
 .topnav input[type=text] {
   padding: 6px;
   margin-top: 8px;
@@ -113,9 +119,29 @@ export default {
     display: none;
     position: absolute;
     right: 20px;
-    top: 9px;
+    top: 8px;
     color: white;
     font-size: 25px;
+}
+
+#more {
+    float: right;
+    color: #1E1E1E;
+    cursor: pointer;
+    position: relative;
+    display: inline-block;
+    z-index: 7000;
+}
+#more-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: red;
+  min-width: 160px;
+  z-index: 7000;
+}
+#more:hover #more-content {
+  display: block;
 }
 .input-active {
   position: absolute;

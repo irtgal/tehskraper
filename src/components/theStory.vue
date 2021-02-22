@@ -2,10 +2,10 @@
 
 		<div  class="story" :id="story.id">
 			<div  v-bind:class="{ seen: story.seen }" class="content px-3 break-long-words">
-				<small class="text-small">{{ story.date }}</small>
-				<h5 v-on:click="openStory(story)" class="hover">{{story.title}}</h5>
-				<p class="mb-1">{{ story.summary }}</p>
-				<small class="text-blue p-1"><strong>{{ story.page }}</strong></small>
+				<small class="text-small m-opacity">{{ story.date }}</small>
+				<h5 v-on:click="openStory(story)" class="hover h-opacity">{{story.title}}</h5>
+				<p class="mb-1 hover m-opacity" v-on:click="openStory(story)">{{ story.summary }}</p>
+				<small class="text-blue p-1 h-opacity"><strong>{{ story.page }}</strong></small>
 			</div>
 			<div class="toolbar">
                 <!-- fontawesome je buggy, hence workaround -->
@@ -46,7 +46,7 @@ export default {
                 item.saved = response.data
             })
             if (this.$route.path === "/saved/"){
-                document.getElementById(item.id).style.display = "none";
+                this.$emit('removeSaved', item.id)
             }
         },
 
@@ -58,18 +58,18 @@ export default {
 
 <style>
 .story {
-    background-color: white;
-    border: 1px solid #c5cbd3;
+    background-color: #1E1E1E;
+    border: 1px solid #333333;
     border-bottom: none;
     display: flex;
     flex-direction: row;
 }
 .story:last-child {
-  border-bottom: 1px solid #c5cbd3;
+  border-bottom: 1px solid #333333;
 }
 .toolbar {
     width: 50px;
-    border-left: 1px solid #c5cbd3;
+    border-left: 1px solid #333333;
     display: flex;
     flex-direction: column;
     color: #7a8185;
@@ -82,12 +82,14 @@ export default {
     align-items: center;
     cursor: pointer;
 }
+.save-div:hover, .visit-div:hover {
+    background-color: #1a1a1a;
+}
 .save-div:hover .save, .visit-div:hover .visit {
-    filter: brightness(90%);
-    cursor: pointer;
+    opacity: 75%;
 }
 .visit-div {
-    border-top: 1px solid #c5cbd3;
+    border-top: 1px solid #333333;
 }
 .visit, .save {
     font-size: 20px;
