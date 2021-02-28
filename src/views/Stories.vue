@@ -1,12 +1,12 @@
 <template>
     <div id="stories-app">
-    <navBar></navBar>
 
     <div id="loading"><i  class="fas fa-sync" id="loading-icon"></i></div>
+    <usageStats v-if="slug == 'saved'"></usageStats>
 	
     <h5 id="app-title" class="text-center">
-            <strong class="h-opacity">{{ appTitle }} <b  v-if="$route.path.includes('search')" class="text-green">{{ query() }}</b></strong>
-            <i v-if="scrollAble" v-on:click="reloadStories()" class="fas fa-sync" id="reload"></i>
+            <strong class="h-opacity">{{ appTitle }} <b  v-if="slug == 'search'" class="text-green">{{ query() }}</b></strong>
+            <i v-show="scrollAble" v-on:click="refreshStories()" class="fas fa-sync" id="refresh"></i>
     </h5>
     <div id="stories">
 		<theStory v-for="story in stories" v-bind:key="story.id" :story="story" @removeSaved="removeStory"></theStory>
@@ -18,13 +18,13 @@
 
 <script>
 import { getAPI } from '../axios-api'
-import navBar from '../components/navBar'
 import theStory from '../components/theStory'
+import usageStats from '../components/usageStats'
 export default {
     name: 'Stories',
     components: {
-        navBar,
         theStory,
+        usageStats,
     },
     data () {
         return {
@@ -32,11 +32,13 @@ export default {
             appTitle: '',
             allLoaded: false,
             scrollAble: true,
+            slug: '',
         }
     },
     created () {
         this.getAPIData()
         window.addEventListener('scroll', this.infiniteScroll)
+        this.checkSlug()
         this.checkScroll()
     },
     updated (){
@@ -47,32 +49,37 @@ export default {
             this.scrollAble = false
             this.getAPIData()
             document.body.scrollTop = document.documentElement.scrollTop = 0
+            this.checkSlug()
             this.checkScroll()
         }
     },
     methods: {
         checkScroll () {
-            if (this.$route.path.includes('saved') || this.$route.path.includes('search')) {
+            var prevented = ['saved', 'search', 'stats']
+            if (prevented.includes(this.slug)) {
                 this.scrollAble = false
             } else {
                 this.scrollAble = true
             }
         },
-        getAPIData(reload = null) {
+        checkSlug () {
+            this.slug = this.$route.path.split("/").slice(1)[0]
+        },
+        getAPIData(refresh = null) {
         getAPI.get(this.$route.path, {
-            params: { reload: reload }
+            params: { refresh: refresh }
         })
         .then(response => {
             this.stories = response.data.stories
             this.appTitle = response.data.app_title
-            if (reload) {document.getElementById("loading").style.display = "none"}
+            if (refresh) {document.getElementById("loading").style.display = "none"}
         })
         },
         query() {
             let searchQuery = this.$route.path.split('/')[2]
-            return searchQuery
+            return decodeURIComponent(searchQuery)
         },
-        reloadStories() {
+        refreshStories() {
             document.getElementById("loading").style.display = "block"
             this.getAPIData(true)
         },
@@ -84,7 +91,7 @@ export default {
         infiniteScroll() {
         window.onscroll = () => {
             let  bottomOfWindow = window.innerHeight + window.pageYOffset >= document.body.offsetHeight
-            if (bottomOfWindow  && this.scrollAble && !this.allLoaded) {
+            if (bottomOfWindow  && this.scrollAble && !this.allLoaded && this.stories.length) {
                 let last_story = this.stories[this.stories.length - 1].id
                 getAPI.get(this.$route.path, {
                 params: { last_story: last_story }
@@ -106,7 +113,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 
 #stories-app {
     margin: 10px 10%;
@@ -114,28 +121,29 @@ export default {
 }
 #app-title {                       
     background-color: #1E1E1E;
-    padding: 10px 10px 10px 45px;
+    padding: 10px;
     margin: 30px 0 10px 0;
 
 }
-#reload {
+#refresh {
     float: right;
     padding: 3px;
     padding-right: 6px;
+    margin-left: -35px;
     color: #80cde5;
     opacity: 75%;
 }
-#reload:hover {
+#refresh:hover {
     cursor: pointer;
     opacity: 100%;
 }
 #no-news {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    -webkit-transform: translateX(-50%);
-    transform: translateX(-50%);
+    position: relative;
+    margin:  auto;
     color: #595959;
+    font-size: 50px;
+    margin: 30vh auto 5vh auto;
+    width: 78px;
 }
 #loading {
     display: none;
