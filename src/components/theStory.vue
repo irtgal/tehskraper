@@ -37,7 +37,7 @@ export default {
             .then(response => {
                 if (response){item.seen = true}                
             })
-            window.open(item.slug)
+            window.open(item.url)
         },
         toggleSaved(item) {
             var id = item.id

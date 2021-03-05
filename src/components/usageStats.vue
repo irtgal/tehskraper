@@ -1,12 +1,12 @@
 <template>
     <div id="stats-app">
     <h5 class="text-center"><strong class="h-opacity">Statistika</strong></h5>
-    <div class="stats-flex">
+    <div  v-if="dataReady" class="stats-flex">
       <div class="item-flex">
-        <pie-chart v-if="dataReady" :data="chartData" :options="chartOptions" id="pie-chart"></pie-chart>
+        <pie-chart :data="chartData" :options="chartOptions" id="pie-chart"></pie-chart>
       </div>
       <div class="item-flex">
-        <h1>6</h1>
+        <h1>{{ dayAverage }}</h1>
       </div>
     </div>
 
@@ -24,6 +24,7 @@ export default {
     data () {
         return {
       dataReady: false,
+      dayAverage: 0,
       chartOptions: {
       },
       chartData: {
@@ -40,7 +41,7 @@ export default {
       },
         }
     },
-    created () {
+    mounted () {
       this.getStats()
     },
     updated (){
@@ -60,6 +61,7 @@ export default {
             .then(response => {
                 if (response){
                   this.buildPie(response)
+                  this.dayAverage = response.data.day_avg
                 }                
             })
         },

@@ -35,7 +35,7 @@ export default {
             slug: '',
         }
     },
-    created () {
+    mounted () {
         this.getAPIData()
         window.addEventListener('scroll', this.infiniteScroll)
         this.checkSlug()
@@ -46,11 +46,11 @@ export default {
     },
     watch:{
         $route (){
-            this.scrollAble = false
+            this.stories = []
             this.getAPIData()
-            document.body.scrollTop = document.documentElement.scrollTop = 0
             this.checkSlug()
             this.checkScroll()
+            document.body.scrollTop = document.documentElement.scrollTop = 0
         }
     },
     methods: {
@@ -66,10 +66,12 @@ export default {
             this.slug = this.$route.path.split("/").slice(1)[0]
         },
         getAPIData(refresh = null) {
+            console.time()
         getAPI.get(this.$route.path, {
             params: { refresh: refresh }
         })
         .then(response => {
+            console.timeEnd()
             this.stories = response.data.stories
             this.appTitle = response.data.app_title
             if (refresh) {document.getElementById("loading").style.display = "none"}
