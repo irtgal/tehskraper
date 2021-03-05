@@ -7,10 +7,13 @@ PAGE_CHOICES = (
 	('mn', 'Monitor'),
 	('rn', "Racunalniske novice")
 )
+
+
+
 class Story(models.Model):
 	page =models.CharField(max_length=3, choices=PAGE_CHOICES)
 	date = models.DateTimeField(auto_now_add=False)
-	slug = models.URLField(max_length=200)
+	url = models.URLField(max_length=200)
 	summary = models.TextField(blank=True, null=True)
 	title = models.CharField(max_length=255, blank=True, null=True)
 	seen = models.BooleanField(default=False)
@@ -22,6 +25,10 @@ class Story(models.Model):
 
 	class Meta:
 		verbose_name_plural = "Stories"
+
+	def mark_seen(self):
+		self.seen = True
+		self.save()
 
 	def pretty_date(self):
 		return self.date.strftime("%d. %b %Y %H:%M")

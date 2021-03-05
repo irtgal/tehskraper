@@ -12,4 +12,5 @@ urlpatterns = [
 	url(r'^search/(?P<query>.+)/$', search, name="search"),
 	url(r'^save/(?P<story_id>\d+)/$', save, name="save"),
 	url(r'^seen/(?P<story_id>\d+)/$', seen, name="seen"),
+	url(r'^stats/$', get_stats, name="get_stats"),
 ]
