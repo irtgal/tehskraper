@@ -22,11 +22,15 @@ def get_stories(request):
 		queryset = Story.objects.filter(Q(date__lt=last_date)).order_by("-date")[:10]
 		if not queryset:
 			return Response({'error': 'Ni več novic'})
+
+	elif refresh:
+		last_date = Story.objects.latest("date").date
+		get_monitor()
+		get_racunalniske_novice()
+		get_slotech()
+		queryset = Story.objects.filter(Q(date__gt=last_date)).order_by("-date")
+
 	else:
-		if refresh:
-			get_monitor()
-			get_racunalniske_novice()
-			get_slotech()
 		queryset = Story.objects.all().order_by("-date")[:10]
 
 	serializer = StorySerializer(queryset, many=True)
@@ -43,9 +47,14 @@ def get_page(request, page_name):
 
 		if not queryset:
 			return Response({'error': 'Ni več novic'})
+
+	elif refresh:
+		last_date = Story.objects.filter(page=page_name).latest("date").date
+		scrappers[page_name]()
+		queryset = Story.objects.filter(Q(date__gt=last_date, page=page_name)).order_by("-date")
+		print(queryset)
+
 	else:
-		if refresh:
-			scrappers[page_name]()
 		queryset = Story.objects.filter(page=page_name).order_by("-date")[:10]
 
 	serializer = StorySerializer(queryset, many=True)
@@ -84,6 +93,6 @@ def get_stats(request):
 	st_count = len(Story.objects.filter(seen=True, page="st"))
 	mn_count = len(Story.objects.filter(seen=True, page="mn"))
 	rn_count = len(Story.objects.filter(seen=True, page="rn"))
-	count_sum = st_count+mn_count+rn_count
+	count_sum = st_count + mn_count + rn_count
 	day_avg = get_day_average(count_sum)
 	return Response({'day_avg':day_avg,'st_count': st_count, 'mn_count': mn_count, 'rn_count': rn_count})
