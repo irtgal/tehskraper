@@ -30,7 +30,7 @@ export default {
   methods: {
     closeNav: function() {
       document.body.scrollTop = document.documentElement.scrollTop = 0
-      if (screen.width < 895){ this.navHidden = true }
+      if (screen.width < 900){ this.navHidden = true }
     },
     toggleNav: function() {
       this.navHidden = !this.navHidden
