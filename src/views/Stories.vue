@@ -1,18 +1,28 @@
 <template>
     <div id="stories-app">
-
-    <div id="loading"><i  class="fas fa-sync" id="loading-icon"></i></div>
-    <usageStats v-if="slug == 'saved'"></usageStats>
 	
     <h5 id="app-title" class="text-center">
             <strong class="h-opacity">{{ appTitle }} <b  v-if="slug == 'search'" class="text-green">{{ query() }}</b></strong>
-            <i v-show="scrollAble" v-on:click="refreshStories()" class="fas fa-sync" id="refresh"></i>
+            <i v-show="scrollAble" v-on:click="refresh()" class="fas fa-sync" id="refresh"></i>
     </h5>
-    <div id="stories">
-		<theStory v-for="story in stories" v-bind:key="story.id" :story="story" @removeSaved="removeStory"></theStory>
 
-        <div v-if="!stories.length" id="no-news"><h5><b>Ni novic</b></h5></div>
+     
+    <div id="stories">
+        <transition-group name="fade">
+            <theStory  v-for="story in stories" v-bind:key="story.id" :story="story" @removeSaved="removeStory"></theStory>
+        </transition-group>
+        
+        <transition name="fade">
+            <div v-if="!stories.length" id="no-news"><h5><b>Ni novic</b></h5></div>
+        </transition>
+    
 	</div>
+
+    <usageStats v-if="slug == 'saved'"></usageStats>
+
+
+    <div id="loading-div"><i  class="fas fa-sync fa-spin" id="loading-icon"></i></div>
+
     </div>
 </template>
 
@@ -65,25 +75,35 @@ export default {
         checkSlug () {
             this.slug = this.$route.path.split("/").slice(1)[0]
         },
-        getAPIData(refresh = null) {
-            console.time()
-        getAPI.get(this.$route.path, {
-            params: { refresh: refresh }
-        })
+        getAPIData() {
+        getAPI.get(this.$route.path)
         .then(response => {
-            console.timeEnd()
             this.stories = response.data.stories
             this.appTitle = response.data.app_title
-            if (refresh) {document.getElementById("loading").style.display = "none"}
         })
+        },
+        refresh() {
+        document.getElementById("loading-div").style.display = "flex"
+
+        getAPI.get(this.$route.path, {
+            params: { refresh: true }
+        })
+        .then(response => {
+            this.appTitle = response.data.app_title
+            var newStories = response.data.stories.reverse() //v loopu jih nalaga od prvega do zadnjega
+            if (newStories.length){
+                for (var i = 0; i < newStories.length; i++){
+                    var newStory = newStories[i]
+                    newStory.new = true
+                    this.stories.unshift(newStory)
+                }
+            }
+            document.getElementById("loading-div").style.display = "none"
+        })  
         },
         query() {
             let searchQuery = this.$route.path.split('/')[2]
             return decodeURIComponent(searchQuery)
-        },
-        refreshStories() {
-            document.getElementById("loading").style.display = "block"
-            this.getAPIData(true)
         },
         removeStory(id) {
             let i = this.stories.map(item => item.id).indexOf(id)
@@ -129,44 +149,46 @@ export default {
 }
 #refresh {
     float: right;
-    padding: 3px;
-    padding-right: 6px;
+    padding-right: 4px;
     margin-left: -35px;
-    color: #80cde5;
-    opacity: 75%;
+    color:  #C0C0C0;
+    opacity: 100%;
+    font-size: 25px;
 }
 #refresh:hover {
     cursor: pointer;
-    opacity: 100%;
+    opacity: 75%;
+}
+#stories {
+    position: relative;
+    min-height: 10vh;
 }
 #no-news {
-    position: relative;
-    margin:  auto;
+    position: absolute;
+    top: 6.5vh;
+    left: 50%;
     color: #595959;
     font-size: 50px;
-    margin: 30vh auto 5vh auto;
-    width: 78px;
+    transform: translate(-50%, -50%);    
 }
-#loading {
+#loading-div {
     display: none;
-    position:fixed;
-    padding:0;
-    margin:0;
-    top:0;
-    left:0;
-    width: 100%;
-    height: 100%;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     background:rgba(255,255,255,0.1);
     z-index: 600;
 }
 #loading-icon {
+    display: block;
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     color: #80cde5;
-    font-size: 10vh;
-    opacity: 0.5;
+    font-size: 15vh;
+    opacity: 0.7;
 }
 @media screen and (max-width: 600px) {
     #stories-app {
@@ -174,4 +196,13 @@ export default {
     }
 }
 
+.fade-enter-active, .fade-leave-active {
+  transition: all .2s;
+}
+.fade-enter, .fade-leave-to{
+  opacity: 0;
+}
+.fade-enter-active {
+  transition-delay: .2s;
+}
 </style>

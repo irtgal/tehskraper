@@ -36,7 +36,8 @@ export default {
       this.navHidden = !this.navHidden
     },
     search: function() {
-      if (this.searchQuery.length > 0 && ! /(#|\/|\?)+/.test(this.searchQuery)){
+      this.searchQuery = this.searchQuery.trim()
+      if (this.searchQuery.length > 0 && ! /(#|\/|\?|%)+/.test(this.searchQuery)){
         this.$router.push('/search/'+this.searchQuery+'/')
         this.closeNav()
         this.searchQuery = ''

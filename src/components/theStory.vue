@@ -1,6 +1,6 @@
 <template>
-
-		<div  class="story" :id="story.id">
+		<div  class="story" v-bind:id="story.id">
+            <i v-if="story.new" class="fas fa-circle story-new"></i>
 			<div  v-bind:class="{ seen: story.seen }" class="content px-3 break-long-words">
 				<small class="text-small m-opacity">{{ story.date }}</small>
 				<h5 v-on:click="openStory(story)" class="hover h-opacity">{{story.title}}</h5>
@@ -63,6 +63,7 @@ export default {
     border-bottom: none;
     display: flex;
     flex-direction: row;
+    position: relative;
 }
 .story:last-child {
   border-bottom: 1px solid #333333;
@@ -97,6 +98,14 @@ export default {
 .content {
     flex: 1;
     padding: 10px;
+}
+.story-new {
+    position: absolute;
+    font-size: 9px;
+    left: 50%;
+    top: 20px;
+    color: #80cde5;
+    transform: translate(-50%, -50%);
 }
 .break-long-words {
   overflow-wrap: break-word;

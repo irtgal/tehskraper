@@ -4,9 +4,11 @@
     <div  v-if="dataReady" class="stats-flex">
       <div class="item-flex">
         <pie-chart :data="chartData" :options="chartOptions" id="pie-chart"></pie-chart>
+        <small class="m-opacity">Razporejenost ogledanih novic</small>
       </div>
-      <div class="item-flex">
+      <div class="item-flex day-avg-div">
         <h1>{{ dayAverage }}</h1>
+        <small class="m-opacity">Dnevno povprečje ogledanih novic</small>
       </div>
     </div>
 
@@ -81,11 +83,10 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: center;
 }
 .item-flex {
   flex: 1;
-  border: 3px solid green;
-  height: 100%;
 }
 #pie-chart {
     width: 15rem;
@@ -95,6 +96,9 @@ export default {
 @media (max-width: 700px) {
   .stats-flex {
     flex-direction: column;
+  }
+  .item-flex {
+    margin: 10px;
   }
 }
 </style>
