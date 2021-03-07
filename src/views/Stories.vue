@@ -154,12 +154,12 @@ export default {
     padding-right: 4px;
     margin-left: -35px;
     color:  #C0C0C0;
-    opacity: 100%;
+    opacity: 1;
     font-size: 25px;
 }
 #refresh:hover {
     cursor: pointer;
-    opacity: 75%;
+    opacity: 0.8;
 }
 #stories {
     position: relative;

@@ -87,7 +87,7 @@ export default {
     background-color: #1a1a1a;
 }
 .save-div:hover .save, .visit-div:hover .visit {
-    opacity: 75%;
+    opacity: 0.8;
 }
 .visit-div {
     border-top: 1px solid #333333;

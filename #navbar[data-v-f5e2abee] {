@@ -1,0 +1,319 @@
+#navbar[data-v-f5e2abee] {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	background-color: #66ae66;
+	z-index: 7000;
+	color: red
+}
+
+.topnav[data-v-f5e2abee] {
+	margin: 0 10%;
+	overflow: hidden
+}
+
+.nav-item[data-v-f5e2abee] {
+	float: left;
+	display: block;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+	font-size: 17px;
+	color: #fff
+}
+
+.nav-saved[data-v-f5e2abee] {
+	float: right;
+	color: #1e1e1e
+}
+
+.home[data-v-f5e2abee] {
+	font-size: 25px
+}
+
+.nav-item[data-v-f5e2abee]:hover {
+	opacity: 1%;
+	text-decoration: none
+}
+
+.topnav input[type=text][data-v-f5e2abee] {
+	padding: 6px;
+	margin-top: 8px;
+	font-size: 17px;
+	border: none
+}
+
+.search-input[data-v-f5e2abee] {
+	float: right;
+	margin-right: 10px
+}
+
+#nav-expand[data-v-f5e2abee] {
+	display: none;
+	position: absolute;
+	right: 5px;
+	top: 0;
+	padding: 6px 12px 7px 12px;
+	color: #fff;
+	font-size: 25px
+}
+
+.input-active[data-v-f5e2abee] {
+	position: absolute;
+	top: 30px
+}
+
+@media screen and (max-width:895px) {
+	#nav-expand[data-v-f5e2abee] {
+		display: block
+	}
+	.topnav[data-v-f5e2abee] {
+		float: none
+	}
+	.nav-item[data-v-f5e2abee],
+	.nav-saved[data-v-f5e2abee],
+	.search-input[data-v-f5e2abee] {
+		float: none;
+		display: block;
+		text-align: center;
+		width: 100%;
+		margin: 0;
+		padding: 12px
+	}
+	.search-input[data-v-f5e2abee] {
+		margin-bottom: 15px
+	}
+}
+
+#app {
+	padding: 50px 0 20px 0;
+	background-color: #121212;
+	min-height: 100vh;
+	color: #fff
+}
+
+.hover:hover {
+	cursor: pointer;
+	filter: brightness(90%)
+}
+
+.bg-green {
+	background-color: #95d095
+}
+
+.text-green {
+	color: #71c171
+}
+
+.text-blue {
+	color: #80cde5
+}
+
+.text-white {
+	color: #fff
+}
+
+.text-small {
+	font-size: 10px
+}
+
+.h-opacity,
+.m-opacity,
+.seen {
+	opacity: 1%
+}
+
+.thick {
+	font-weight: 700
+}
+
+.story {
+	background-color: #1e1e1e;
+	border: 1px solid #333;
+	border-bottom: none;
+	display: flex;
+	flex-direction: row;
+	position: relative
+}
+
+.story:last-child {
+	border-bottom: 1px solid #333
+}
+
+.toolbar {
+	width: 50px;
+	border-left: 1px solid #333;
+	display: flex;
+	flex-direction: column;
+	color: #7a8185
+}
+
+.save-div,
+.visit-div {
+	flex: 1;
+	text-align: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer
+}
+
+.save-div:hover,
+.visit-div:hover {
+	background-color: #1a1a1a
+}
+
+.save-div:hover .save,
+.visit-div:hover .visit {
+	opacity: 1%
+}
+
+.visit-div {
+	border-top: 1px solid #333
+}
+
+.save,
+.visit {
+	font-size: 20px
+}
+
+.content {
+	flex: 1;
+	padding: 10px
+}
+
+.story-new {
+	position: absolute;
+	font-size: 9px;
+	left: 50%;
+	top: 20px;
+	color: #80cde5;
+	transform: translate(-50%, -50%)
+}
+
+.break-long-words {
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+	word-break: break-all;
+	word-break: break-word;
+	-webkit-hyphens: auto;
+	-ms-hyphens: auto;
+	hyphens: auto
+}
+
+.hidden {
+	display: none
+}
+
+#stats-app[data-v-d52c2496] {
+	background-color: #1e1e1e;
+	padding: 10px;
+	margin: 30px 0 10px 0;
+	text-align: center
+}
+
+.stats-flex[data-v-d52c2496] {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center
+}
+
+.item-flex[data-v-d52c2496] {
+	flex: 1
+}
+
+#pie-chart[data-v-d52c2496] {
+	width: 15rem;
+	margin: auto
+}
+
+@media (max-width:700px) {
+	.stats-flex[data-v-d52c2496] {
+		flex-direction: column
+	}
+	.item-flex[data-v-d52c2496] {
+		margin: 10px
+	}
+}
+
+#stories-app {
+	margin: 10px 10%;
+	font-family: Arial, Helvetica, sans-serif
+}
+
+#app-title {
+	background-color: #1e1e1e;
+	padding: 10px;
+	margin: 30px 0 10px 0
+}
+
+#refresh {
+	float: right;
+	padding-right: 4px;
+	margin-left: -35px;
+	color: silver;
+	opacity: 1%;
+	font-size: 25px
+}
+
+#refresh:hover {
+	cursor: pointer;
+	opacity: 1%
+}
+
+#stories {
+	position: relative;
+	min-height: 10vh
+}
+
+#no-news {
+	position: absolute;
+	top: 6.5vh;
+	left: 50%;
+	color: #595959;
+	font-size: 50px;
+	transform: translate(-50%, -50%)
+}
+
+#loading-div {
+	display: none;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: hsla(0, 0%, 100%, .1);
+	z-index: 600
+}
+
+#loading-icon {
+	display: block;
+	position: absolute;
+	color: #80cde5;
+	font-size: 15vh;
+	opacity: .7
+}
+
+@media screen and (max-width:600px) {
+	#stories-app {
+		margin: 10px 3%
+	}
+}
+
+.fade-enter-active,
+.fade-leave-active {
+	transition: all .2s
+}
+
+.fade-enter,
+.fade-leave-to {
+	opacity: 0
+}
+
+.fade-enter-active {
+	transition-delay: .2s
+}

@@ -97,7 +97,7 @@ export default {
     font-size: 25px;
 }
 .nav-item:hover {
-    opacity: 80%;
+    opacity: 0.8;
     text-decoration: none;
 }
 .topnav input[type=text] {
