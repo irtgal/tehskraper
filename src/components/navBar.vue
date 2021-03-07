@@ -113,11 +113,11 @@ export default {
 #nav-expand {
     display: none;
     position: absolute;
-    right: 3px;
+    right: 2.5vh;
     top: 0px;
-    padding: 7px;
+    padding: 4px;
     color: white;
-    font-size: 25px;
+    font-size: 29px;
 }
 .input-active {
   position: absolute;
