@@ -84,7 +84,7 @@ export default {
         },
         refresh() {
         document.getElementById("loading-div").style.display = "flex"
-        document.documentElement.style.overflow = 'hidden' // onemogoči scroll
+        document.documentElement.style.overflow = 'hidden' //onemogoči scroll
 
         getAPI.get(this.$route.path, {
             params: { refresh: true }
