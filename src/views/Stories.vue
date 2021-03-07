@@ -84,6 +84,7 @@ export default {
         },
         refresh() {
         document.getElementById("loading-div").style.display = "flex"
+        document.documentElement.style.overflow = 'hidden' // onemogoči scroll
 
         getAPI.get(this.$route.path, {
             params: { refresh: true }
@@ -99,6 +100,7 @@ export default {
                 }
             }
             document.getElementById("loading-div").style.display = "none"
+            document.documentElement.style.overflow = 'auto' // omogoči scroll
         })  
         },
         query() {
