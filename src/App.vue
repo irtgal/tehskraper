@@ -41,17 +41,18 @@ export default {
 .text-small {
     font-size: 10px;
 }
-.seen {
-    opacity: 38%;
-}
+
 .hidden {
   display: none;
 }
 .h-opacity {
- opacity: 87%;
+ opacity: 100%;
 }
 .m-opacity {
-    opacity: 60%;
+    opacity: 100%;
+}
+.seen {
+    opacity: 38%;
 }
 .thick {
     font-weight: bold;

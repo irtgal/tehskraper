@@ -72,6 +72,7 @@ export default {
     right: 0;
     background-color: #66AE66;
     z-index: 7000;
+    color: red;
 }
 
 .topnav {
