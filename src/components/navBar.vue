@@ -113,9 +113,9 @@ export default {
 #nav-expand {
     display: none;
     position: absolute;
-    right: 5px;
+    right: 3px;
     top: 0px;
-    padding: 6px 12px 7px 12px;
+    padding: 7px;
     color: white;
     font-size: 25px;
 }
